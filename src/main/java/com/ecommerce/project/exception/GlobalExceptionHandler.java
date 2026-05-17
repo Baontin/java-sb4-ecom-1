@@ -27,4 +27,15 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
+    /*
+    * a custom exception called ResourceNotFoundException
+    * to handle cases where a requested resource (User, Category, Product, etc.)
+      is not found in the database.
+    */
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<String> myResourceNotFoundException(ResourceNotFoundException e) {
+        String message = e.getMessage();
+        return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+    }
 }
