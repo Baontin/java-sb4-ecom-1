@@ -13,9 +13,15 @@ import java.util.List;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
-//    private List<Category> categories = new ArrayList<>();
-//    private Long categoryId = 1L;
-
+    /* Autowired still work
+    * but the better way is "Constructor injection"
+      just for: cleaner code, explicit dependencies, immutability and easier testing.
+      * immutability: mean the final field, the class can't enforce change data
+        after completed constructor (dependencies are set)
+      * explicit dependencies: anyone reading the construct see exactly what required
+      * Cleaner lifecycle: dependencies are available immediately when the obj is constructed
+      * Testability: easily pass mocks in unit tests.
+     */
     @Autowired
     private CategoryRepository categoryRepository;
 
