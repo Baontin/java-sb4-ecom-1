@@ -6,7 +6,6 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -14,7 +13,16 @@ import java.util.List;
 @RequestMapping("/api")
 public class CategoryController {
 
-    private CategoryService categoryService;
+    /* Why categoryService field doesn't go with @Autowired
+     * CategoryService is annotated with @Service.
+     * Spring automatically registers it as a bean --> (Bean registration)
+     *
+     * (Dependency injection): when another class (here is CustomerController)
+     * declares a dependency on CategoryService -> Spring looks in its context for a MATCHING BEAN
+     *
+     * EASY TO KNOW: (Bean registration) @Service tell Spring make CategoryService class as a bean
+     * (Constructor injection) → tells Spring: “this controller needs that bean.”*/
+    private final CategoryService categoryService;
 
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
@@ -34,24 +42,18 @@ public class CategoryController {
 
     @DeleteMapping("/admin/categories/{categoryId}")
     public ResponseEntity<String> deleteCategory(@PathVariable Long categoryId) {
-        try {
-            String status = categoryService.deleteCategory(categoryId);
-            return new ResponseEntity<>(status, HttpStatus.OK);
-        } catch (ResponseStatusException e) {
-            return new ResponseEntity<>(e.getReason(), e.getStatusCode());
-        }
+
+        String status = categoryService.deleteCategory(categoryId);
+        return new ResponseEntity<>(status, HttpStatus.OK);
     }
 
     @PutMapping("/public/categories/{categoryId}")
-    public ResponseEntity<String> updateCategory(@RequestBody Category category,
+    public ResponseEntity<String> updateCategory(@Valid
+                                                 @RequestBody Category category,
                                                  @PathVariable Long categoryId) {
-        try {
 
-            Category savedCategory = categoryService.updateCategory(category, categoryId);
-            return new ResponseEntity<>("Category with category id " + categoryId +
-                                        " updated successfully!", HttpStatus.OK);
-        } catch (ResponseStatusException e) {
-            return new ResponseEntity<>(e.getReason(), e.getStatusCode());
-        }
+        Category savedCategory = categoryService.updateCategory(category, categoryId);
+        return new ResponseEntity<>("Category with category id " + categoryId +
+                                    " updated successfully!", HttpStatus.OK);
     }
 }
