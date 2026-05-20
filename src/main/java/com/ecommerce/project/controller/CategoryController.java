@@ -14,7 +14,16 @@ import java.util.List;
 @RequestMapping("/api")
 public class CategoryController {
 
-    private CategoryService categoryService;
+    /* Why categoryService field doesn't go with @Autowired
+     * CategoryService is annotated with @Service.
+     * Spring automatically registers it as a bean --> (Bean registration)
+     *
+     * (Dependency injection): when another class (here is CustomerController)
+     * declares a dependency on CategoryService -> Spring looks in its context for a MATCHING BEAN
+     *
+     * EASY TO KNOW: (Bean registration) @Service tell Spring make CategoryService class as a bean
+     * (Constructor injection) → tells Spring: “this controller needs that bean.”*/
+    private final CategoryService categoryService;
 
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;

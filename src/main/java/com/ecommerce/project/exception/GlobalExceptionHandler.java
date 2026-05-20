@@ -38,4 +38,16 @@ public class GlobalExceptionHandler {
         String message = e.getMessage();
         return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
+
+
+    /*
+    * APIException catches generic errors such as:
+        duplicate error (category name is unique for ex),
+        no resource present (no category created till now),
+        ... */
+    @ExceptionHandler(APIException.class)
+    public ResponseEntity<String> myAPIException(APIException e) {
+        String message = e.getMessage();
+        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+    }
 }
