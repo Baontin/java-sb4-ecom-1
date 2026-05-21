@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
     @EqualsAndHashCode,
     @Getter on all fields,
     @Setter on all non-final fields,
-    and @RequiredArgsConstructor!
+    and @RequiredArgsConstructor for final/nonNull fields!
 */
 @Data
 @NoArgsConstructor
