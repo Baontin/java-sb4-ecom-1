@@ -16,9 +16,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class AuthEntryPoint implements AuthenticationEntryPoint {
+public class AuthEntryPointJwt implements AuthenticationEntryPoint {
 
-    private static final Logger logger = LoggerFactory.getLogger(AuthEntryPoint.class);
+    private static final Logger logger = LoggerFactory.getLogger(AuthEntryPointJwt.class);
 
 
     @Override

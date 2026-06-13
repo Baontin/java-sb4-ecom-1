@@ -63,7 +63,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                                 userDetails,
                                 null,
                                 userDetails.getAuthorities());
-                // get extra info (IP address, session Id,...) in request for user
+                // get extra info (IP address, session id,...) in request for user
                 authentication.setDetails(
                         new WebAuthenticationDetailsSource().buildDetails(request));
 
