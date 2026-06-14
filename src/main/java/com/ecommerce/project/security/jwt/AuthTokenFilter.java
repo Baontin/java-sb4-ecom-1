@@ -39,7 +39,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 
     @Autowired
-    private JwtUnits jwtUnits;
+    private JwtUtils jwtUtils;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -54,7 +54,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             // get Jwt
             String jwt = parseJwt(request);
             // check Jwt whether valid and non-null
-            if (jwt != null && jwtUnits.validateJwtToken(jwt)) {
+            if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
                 // take user-info from that
                 UserDetails userDetails = userDetailsService.loadUserByUsername(jwt);
                 // Mark that user was authenticated
@@ -79,7 +79,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     }
 
     private String parseJwt(HttpServletRequest request) {
-        String jwt = jwtUnits.getJwtFromHeader(request);
+        String jwt = jwtUtils.getJwtFromHeader(request);
         logger.debug("AuthTokenFilter.java JWT: {}", jwt);
         return jwt;
     }

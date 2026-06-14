@@ -18,9 +18,9 @@ import java.security.Key;
 import java.util.Date;
 
 @Component
-public class JwtUnits {
+public class JwtUtils {
 
-    private static final Logger logger = LoggerFactory.getLogger(JwtUnits.class);
+    private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
     @Value("${spring.app.jwtSecret}")
     private String jwtSecret;
@@ -59,7 +59,7 @@ public class JwtUnits {
     }
 
     // generate JWT token from username
-    public String generateJwtFromRequest(UserDetails userDetails) {
+    public String generateJwtFromUsername(UserDetails userDetails) {
         String username = userDetails.getUsername();
 
         // builder(): Used when creating a new JWT token.
