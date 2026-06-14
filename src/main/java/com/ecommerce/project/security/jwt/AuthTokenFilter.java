@@ -56,7 +56,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             // check Jwt whether valid and non-null
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
                 // take user-info from that
-                UserDetails userDetails = userDetailsService.loadUserByUsername(jwt);
+                String username = jwtUtils.getUsernameFromJwtToken(jwt);
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 // Mark that user was authenticated
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(

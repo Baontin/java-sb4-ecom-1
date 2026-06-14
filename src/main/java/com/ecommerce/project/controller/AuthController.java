@@ -19,6 +19,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,13 +35,16 @@ public class AuthController {
     private final JwtUtils jwtUtils;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder encoder;
 
     public AuthController(AuthenticationManager authenticationManager , JwtUtils jwtUtils,
-                          UserRepository userRepository, RoleRepository roleRepository) {
+                          UserRepository userRepository, RoleRepository roleRepository,
+                          PasswordEncoder encoder) {
         this.authenticationManager = authenticationManager;
         this.jwtUtils = jwtUtils;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.encoder = encoder;
     }
 
     @PostMapping("/signin")
@@ -84,6 +88,8 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signupRequest) {
 
+        System.out.println(signupRequest);
+        System.out.println("roles = " + signupRequest.getRoles());
         // check unique fields
         if (userRepository.existsByUsername(signupRequest.getUsername())) {
             return ResponseEntity
@@ -101,14 +107,14 @@ public class AuthController {
         User user = new User(
                 signupRequest.getUsername(),
                 signupRequest.getEmail(),
-                signupRequest.getPassword()
+                encoder.encode(signupRequest.getPassword())
         );
 
         // set Role
         Set<String> strRoles = signupRequest.getRoles();
         Set<Role> roles = new HashSet<>();
 
-        if (strRoles != null) {
+        if (strRoles == null) {
             Role userRole = roleRepository.findByRoleName(AppRole.ROLE_USER)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found!!"));
             roles.add(userRole);
