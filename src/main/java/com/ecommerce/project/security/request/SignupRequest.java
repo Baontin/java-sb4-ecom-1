@@ -7,8 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Set;
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -28,6 +26,5 @@ public class SignupRequest {
     @Size(min = 6, max = 120)
     private String password;
 
-    private Set<String> roles;
 
 }

@@ -75,6 +75,14 @@ public class JwtUtils {
         return cookie;
     }
 
+    public ResponseCookie cleanJwtCookie() {
+        ResponseCookie cookie = ResponseCookie.from(jwtCookie, null)
+                .path("/api")
+                .maxAge(0)
+                .build();
+        return cookie;
+    }
+
     // generate JWT token from username
     public String generateJwtFromUsername(String username) {
         // builder(): Used when creating a new JWT token.

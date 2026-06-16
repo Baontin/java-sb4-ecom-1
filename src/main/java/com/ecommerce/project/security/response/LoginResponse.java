@@ -4,16 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
+import org.springframework.http.ResponseCookie;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class UserinfoResponse {
-
-    private Long id;
-    private String username;
-    private List<String> roles;
+@AllArgsConstructor
+public class LoginResponse {
+    UserinfoResponse userinfo;
+    ResponseCookie cookie;
 }
