@@ -6,6 +6,9 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -38,4 +41,8 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "seller_id")
     private User user;
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<CartItem> cartItems;
 }
