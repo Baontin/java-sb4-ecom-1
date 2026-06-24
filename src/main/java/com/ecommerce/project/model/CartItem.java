@@ -19,6 +19,7 @@ public class CartItem {
     private double discount;
     private double productPrice;
     private Integer quantity;
+    private Double totalPrice;
 
     @ManyToOne
     @JoinColumn(name = "cart_id")
@@ -27,4 +28,8 @@ public class CartItem {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
+
+    public Double setTotalPrice(Double totalPrice) {
+        return totalPrice;
+    }
 }
