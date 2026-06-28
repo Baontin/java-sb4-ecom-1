@@ -142,6 +142,21 @@ public class CartServiceImpl implements CartService {
         return mapToCartDTO(cart);
     }
 
+    @Transactional
+    @Override
+    public String deleteCartItemFromCart(Long productId) {
+        Cart cart = cartRepository.findCartByEmail(authUtils.loggedInEmail());
+        CartItem cartItem = cartItemRepository.findCartItemByCartIdAndProductId(cart.getCartId(), productId);
+        if (cartItem == null) {
+            throw new APIException("Product is not in this cart.");
+        }
+
+        cart.setTotalPrice(cart.getTotalPrice() - cartItem.getTotalPrice());
+        cart.getCartItems().remove(cartItem);
+
+        return "Product " + cartItem.getProduct().getProductName() + " removed successfully";
+    }
+
     private Cart getOrCreateCart() {
         Cart userCart = cartRepository.findCartByEmail(authUtils.loggedInEmail());
         if (userCart != null) {
@@ -174,4 +189,5 @@ public class CartServiceImpl implements CartService {
         cartItem.setDiscount(product.getDiscount());
         cartItem.setTotalPrice(cartItem.getProductPrice() * quantity);
     }
+
 }

@@ -29,7 +29,4 @@ public class CartItem {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    public Double setTotalPrice(Double totalPrice) {
-        return totalPrice;
-    }
 }
